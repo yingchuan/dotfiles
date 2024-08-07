@@ -8,7 +8,8 @@
         HOMEBREW_NO_INSTALL_CLEANUP=true brew install zsh
 {{    else -}}
         {{ $sudo }} apt install -yy zsh
-{{    end }}
+{{    end -}}
+      git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions
 {{ end -}}
 
 

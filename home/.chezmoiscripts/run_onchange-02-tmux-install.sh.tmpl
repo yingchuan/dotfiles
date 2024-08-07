@@ -7,7 +7,7 @@
 {{- if eq .chezmoi.os "linux" }}
 {{ $sudo }} apt install -yy tmux
 {{ else if .chezmoi.os "darwin" }}
-HOMEBREW_NO_INSTALL_CLEANUP=true brew install tmux
+HOMEBREW_NO_INSTALL_CLEANUP=true brew reinstall tmux
 {{ end -}}
 
 if [ ! -d ~/.tmux ]; then
