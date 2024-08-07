@@ -1,0 +1,15 @@
+{{ $sudo := "sudo  " -}}
+{{ if eq .chezmoi.username "root" -}}
+{{     $sudo = "" -}}
+{{ end -}}
+#!/bin/bash
+
+{{- if eq .chezmoi.os "linux" }}
+apt install -yy tmux
+{{ else if .chezmoi.os "darwin" }}
+brew install tmux
+{{ end -}}
+
+if [ ! -d ~/.tmux ]; then
+  ln -sr ~/.tmux/.tmux.conf ~/
+fi
