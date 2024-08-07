@@ -5,13 +5,15 @@
 #! /bin/bash
 {{ if (or (eq .chezmoi.os "darwin") (eq .chezmoi.arch "amd64")) }}
 {{    if eq .chezmoi.osRelease.idLike "ubuntu debian" -}}
-        HOMEBREW_NO_INSTALL_CLEANUP=true brew install zsh
+        HOMEBREW_NO_INSTALL_CLEANUP=true brew reinstall zsh
 {{    else -}}
         {{ $sudo }} apt install -yy zsh
 {{    end -}}
-      git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions
+      [ ! -d ~/.zsh/zsh-autosuggestions ] && git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions
 {{ end -}}
 
 
 [ "$(basename ${SHELL})" != "zsh" ] && {{ $sudo }} chsh -s $(which zsh) $(id -un)
+
+exit 0
 

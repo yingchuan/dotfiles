@@ -65,6 +65,8 @@ ZSH_THEME="bira"
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
 
+source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+
 # Which plugins would you like to load?
 # Standard plugins can be found in $ZSH/plugins/
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
@@ -76,7 +78,6 @@ zstyle :omz:plugins:ssh-agent identities $HOME/.ssh/ui-m2-macos
 zstyle :omz:plugins:ssh-agent lifetime 24h
 
 source $ZSH/oh-my-zsh.sh
-source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 # User configuration
 NPM_PACKAGES="${HOME}/.npm-packages"
@@ -107,6 +108,6 @@ export MANPATH="${MANPATH-$(manpath)}:$NPM_PACKAGES/share/man"
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-{{ if ne .chezmoi.arch "amd64" -}}
+{{ if (or ( eq .chezmoi.arch "amd64" ) ( eq .chezmoi.os "darwin" )) -}}
     eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 {{ end -}}
