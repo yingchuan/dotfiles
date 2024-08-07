@@ -5,7 +5,7 @@
 #! /bin/bash
 {{ if (or (eq .chezmoi.os "darwin") (eq .chezmoi.arch "amd64")) }}
 {{    if eq .chezmoi.osRelease.idLike "ubuntu debian" -}}
-        brew install zsh
+        HOMEBREW_NO_INSTALL_CLEANUP=true brew install zsh
 {{    else -}}
         {{ $sudo }} apt install -yy zsh
 {{    end }}
