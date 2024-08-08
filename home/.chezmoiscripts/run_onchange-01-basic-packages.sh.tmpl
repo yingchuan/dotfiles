@@ -1,0 +1,30 @@
+{{ $sudo := "sudo" -}}
+{{ if eq .chezmoi.username "root" }}
+{{ $sudo = "" -}}
+{{ end -}}
+#! /bin/bash
+{{/* ubuntu could be amd64 or arm64 (vm in a macbook mX) */ -}}
+{{ if (or (eq .chezmoi.osRelease.id "ubuntu") (eq .chezmoi.osRelease.id "pop")) -}}
+{{ $sudo }} apt update
+{{ range .ubuntu.apt -}}
+{{ $sudo }} apt install -yy {{ . }}
+{{ end -}}
+{{ range .ubuntu.snap -}}
+{{ $sudo }} snap install {{ . }}
+{{ end -}}
+{{ end }}
+{{/* with amd64 or macos, we use brew to manage packages */ -}}
+{{ if (or (eq .chezmoi.os "darwin") (and (eq .chezmoi.os "linux") (eq .chezmoi.arch "amd64"))) -}}
+{{/* check homebrew installation */ -}}
+if ! which brew > /dev/null; then
+    echo "Homebrew not found. Installing Homebrew..."
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+else
+    echo "Homebrew is already installed."
+fi
+
+export HOMEBREW_NO_INSTALL_CLEANUP=true
+{{ range .homebrew.formulae -}}
+brew reinstall {{ . }}
+{{ end -}}
+{{ end }}

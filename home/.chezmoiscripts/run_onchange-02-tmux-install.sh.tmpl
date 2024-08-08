@@ -1,14 +1,4 @@
-{{ $sudo := "sudo  " -}}
-{{ if eq .chezmoi.username "root" -}}
-{{     $sudo = "" -}}
-{{ end -}}
 #!/bin/bash
-
-{{- if eq .chezmoi.os "linux" }}
-{{ $sudo }} apt install -yy tmux
-{{ else if .chezmoi.os "darwin" }}
-HOMEBREW_NO_INSTALL_CLEANUP=true brew reinstall tmux
-{{ end -}}
 
 if [ ! -d ~/.tmux ]; then
   ln -sf ~/.tmux/.tmux.conf ~/

@@ -1,0 +1,38 @@
+[ubuntu]
+    apt = [
+      "build-essential",
+      "python3-pip",
+      "python3-venv",
+      "python3-full",
+      "pipx",
+      "nodejs",
+      "curl",
+      "fd-find",
+      "fzf",
+      "git",
+      "jq",
+      "libfuse2",
+      "openssh-server",
+      "ripgrep",
+      "shellcheck",
+      "htop",
+      "sshpass",
+      "tree",
+      "xinput",
+      "file"
+    ]
+    snap = [
+      "neovim"
+    ]
+
+[homebrew]
+    formulae = [
+      "tmux",
+      "neovim",
+      "jq",
+      "llvm",
+      "ripgrep",
+      "fzf",
+      "zsh",
+      "python@3.12"
+    ]
