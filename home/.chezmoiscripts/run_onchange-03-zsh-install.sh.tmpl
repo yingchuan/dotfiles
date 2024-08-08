@@ -9,6 +9,8 @@
 {{    else -}}
         {{ $sudo }} apt install -yy zsh
 {{    end -}}
+{{ else -}}
+      {{ $sudo }} apt install -yy zsh
 {{ end -}}
 
 ZSH_AUTO_SUGGESTION_DIR=${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
