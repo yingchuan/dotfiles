@@ -22,7 +22,7 @@
       "file"
     ]
     snap = [
-      "neovim"
+      "nvim"
     ]
 
 [homebrew]
