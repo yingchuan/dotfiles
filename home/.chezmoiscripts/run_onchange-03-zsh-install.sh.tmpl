@@ -4,7 +4,7 @@
 {{ end -}}
 #! /bin/bash
 
-ZSH_AUTO_SUGGESTION_DIR=${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+ZSH_AUTO_SUGGESTION_DIR=$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 if [ ! -d $ZSH_AUTO_SUGGESTION_DIR ]; then
   git clone https://github.com/zsh-users/zsh-autosuggestions $ZSH_AUTO_SUGGESTION_DIR
 else
