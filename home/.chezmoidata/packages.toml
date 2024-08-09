@@ -19,7 +19,8 @@
       "sshpass",
       "tree",
       "xinput",
-      "file"
+      "file",
+      "zsh"
     ]
     snap = [
       { instance = "nvim", args = "--classic" },
