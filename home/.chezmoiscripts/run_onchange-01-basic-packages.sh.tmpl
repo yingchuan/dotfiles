@@ -8,9 +8,9 @@
 {{ $sudo }} apt update
 {{ range .ubuntu.apt -}}
 {{ $sudo }} apt install -yy {{ . }}
-{{ end -}}
+{{ end }}
 {{ range .ubuntu.snap -}}
-{{ $sudo }} snap install {{ . }}
+{{ $sudo }} snap install {{ .instance }} {{ .args }}
 {{ end -}}
 {{ end }}
 {{/* with amd64 or macos, we use brew to manage packages */ -}}
