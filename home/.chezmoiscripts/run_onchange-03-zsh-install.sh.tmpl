@@ -4,13 +4,6 @@
 {{ end -}}
 #! /bin/bash
 
-ZSH_AUTO_SUGGESTION_DIR=$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
-if [ ! -d $ZSH_AUTO_SUGGESTION_DIR ]; then
-  git clone https://github.com/zsh-users/zsh-autosuggestions $ZSH_AUTO_SUGGESTION_DIR
-else
-  cd $ZSH_AUTO_SUGGESTION_DIR && git pull
-fi
-
 [ "$(basename ${SHELL})" != "zsh" ] && {{ $sudo }} chsh -s $(which zsh) $(id -un)
 
 exit 0
