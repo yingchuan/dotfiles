@@ -20,7 +20,8 @@
       "tree",
       "xinput",
       "file",
-      "zsh"
+      "zsh",
+      "zip"
     ]
     snap = [
       { instance = "nvim", args = "--classic" },
