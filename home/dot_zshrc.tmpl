@@ -78,8 +78,7 @@ zstyle :omz:plugins:ssh-agent lifetime 24h
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
-NPM_PACKAGES="${HOME}/.npm-packages"
-export PATH="$NPM_PACKAGES/bin:$HOME/.bin:$HOME/.local/bin:$HOME/.bin:$PATH"
+export PATH="$HOME/go/bin:$HOME/.bin:$HOME/.local/bin:$HOME/.bin:$PATH"
 export MANPATH="${MANPATH-$(manpath)}:$NPM_PACKAGES/share/man"
 export EDITOR=vim
 
