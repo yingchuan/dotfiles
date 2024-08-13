@@ -22,7 +22,8 @@
       "xinput",
       "file",
       "zsh",
-      "zip"
+      "zip",
+      "ca-certificates",
     ]
     snap = [
       { instance = "nvim", args = "--classic" },
