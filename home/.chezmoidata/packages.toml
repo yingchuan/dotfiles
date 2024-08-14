@@ -23,6 +23,7 @@
       "file",
       "zsh",
       "zip",
+      "wireguard",
       "ca-certificates",
     ]
     snap = [
