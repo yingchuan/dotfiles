@@ -40,5 +40,6 @@
       "ripgrep",
       "fzf",
       "zsh",
+      "pipx",
       "python@3.12"
     ]
