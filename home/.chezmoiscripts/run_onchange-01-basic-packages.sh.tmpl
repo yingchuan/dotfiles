@@ -33,6 +33,8 @@
 }
 # install poetry
 pipx install poetry
+# install ruff
+pipx install ruff
 {{ end }}
 {{/* with amd64 or macos, we use brew to manage packages */ -}}
 {{ if (or (eq .chezmoi.os "darwin") (and (eq .chezmoi.os "linux") (eq .chezmoi.arch "amd64"))) -}}
