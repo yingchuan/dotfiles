@@ -51,5 +51,9 @@ export HOMEBREW_NO_INSTALL_CLEANUP=true
 brew reinstall {{ . }}
 {{ end -}}
 {{ end }}
-
+# install pyenv
+PYENV_ROOT="$HOME/.pyenv"
+[ ! -d $PYENV_ROOT/bin ] && {
+  curl https://pyenv.run | bash
+}
 exit 0
