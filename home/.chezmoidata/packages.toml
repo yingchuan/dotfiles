@@ -33,6 +33,7 @@
       "zsh",
       "zip",
       "wireguard",
+      "cmake",
       "ca-certificates",
     ]
     snap = [
