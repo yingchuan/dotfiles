@@ -52,5 +52,6 @@
       "fzf",
       "zsh",
       "pipx",
+      "multipass",
       "python@3.12"
     ]
