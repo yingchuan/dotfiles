@@ -47,6 +47,7 @@
       "tmux",
       "neovim",
       "jq",
+      "python-yq",
       "llvm",
       "ripgrep",
       "fzf",
