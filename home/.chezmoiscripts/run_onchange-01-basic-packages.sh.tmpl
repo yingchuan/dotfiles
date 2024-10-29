@@ -42,15 +42,20 @@ pipx install ruff
 if ! which brew > /dev/null; then
   echo "Homebrew not found. Installing Homebrew..."
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  CMD='eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"'
+  echo $CMD >> $HOME/.bashrc
+  source ~/.bashrc
 else
   echo "Homebrew is already installed."
 
-  export HOMEBREW_NO_INSTALL_CLEANUP=true
-  {{ range .homebrew.formulae -}}
-    brew reinstall {{ . }}
-  {{ end -}}
 fi
 {{ end }}
+
+export HOMEBREW_NO_INSTALL_CLEANUP=true
+{{ range .homebrew.formulae -}}
+  brew reinstall {{ . }}
+{{ end -}}
+
 # install pyenv
 PYENV_ROOT="$HOME/.pyenv"
 [ ! -d $PYENV_ROOT/bin ] && {
