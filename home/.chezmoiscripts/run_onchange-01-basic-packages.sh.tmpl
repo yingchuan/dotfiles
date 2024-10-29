@@ -40,16 +40,16 @@ pipx install ruff
 {{ if (or (eq .chezmoi.os "darwin") (and (eq .chezmoi.os "linux") (eq .chezmoi.arch "amd64"))) -}}
 {{/* check homebrew installation */ -}}
 if ! which brew > /dev/null; then
-    echo "Homebrew not found. Installing Homebrew..."
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  echo "Homebrew not found. Installing Homebrew..."
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 else
-    echo "Homebrew is already installed."
-fi
+  echo "Homebrew is already installed."
 
-export HOMEBREW_NO_INSTALL_CLEANUP=true
-{{ range .homebrew.formulae -}}
-brew reinstall {{ . }}
-{{ end -}}
+  export HOMEBREW_NO_INSTALL_CLEANUP=true
+  {{ range .homebrew.formulae -}}
+    brew reinstall {{ . }}
+  {{ end -}}
+fi
 {{ end }}
 # install pyenv
 PYENV_ROOT="$HOME/.pyenv"
