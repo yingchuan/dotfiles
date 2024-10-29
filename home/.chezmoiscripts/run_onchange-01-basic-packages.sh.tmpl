@@ -53,7 +53,7 @@ fi
 
 export HOMEBREW_NO_INSTALL_CLEANUP=true
 {{ range .homebrew.formulae -}}
-  brew reinstall {{ . }}
+  /home/linuxbrew/.linuxbrew/bin/brew reinstall {{ . }}
 {{ end -}}
 
 # install pyenv
