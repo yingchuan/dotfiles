@@ -44,10 +44,8 @@ if ! which brew > /dev/null; then
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
   CMD='eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"'
   echo $CMD >> $HOME/.bashrc
-  source ~/.bashrc
 else
   echo "Homebrew is already installed."
-
 fi
 {{ end }}
 
