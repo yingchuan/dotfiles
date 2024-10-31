@@ -54,5 +54,5 @@
       "zsh",
       "pipx",
       "python@3.12",
-      "bitwarden-cli",
+      "rbw",
     ]
