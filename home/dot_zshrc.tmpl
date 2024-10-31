@@ -72,13 +72,12 @@ ZSH_THEME="bira"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(git fzf history zsh-autosuggestions zsh-syntax-highlighting ssh-agent)
 
-{{ $sum := sha256sum .chezmoi.config.data.passphrase }}
-{{ print "Computed SHA256: " $sum }}
-{{ $priv_key := "ui-py-utils-user" }}
-{{ if eq $sum "8da2a4df34436cab4431557db4f1206f67ed34e2af5d711dfad421b50bbaf4c8" }}
-{{ $priv_key = "ui-m2-macos" }}
-{{ end }}
-zstyle :omz:plugins:ssh-agent identities $HOME/.ssh/{{- $priv_key -}}
+{{ $ssh_key := "ui-py-utils-user" -}}
+{{ $my_ssh_key := "ui-m2-macos" -}}
+{{ if stat (joinPath (env "HOME") "/.ssh" $my_ssh_key) -}}
+{{ $ssh_key = $my_ssh_key -}}
+{{ end -}}
+zstyle :omz:plugins:ssh-agent identities $HOME/.ssh/{{- $ssh_key }}
 zstyle :omz:plugins:ssh-agent lifetime 24h
 
 source $ZSH/oh-my-zsh.sh
