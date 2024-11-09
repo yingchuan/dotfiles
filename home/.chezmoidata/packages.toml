@@ -14,8 +14,6 @@
       "python3-venv",
       "python3-full",
       "pipx",
-      "nodejs",
-      "npm",
       "curl",
       "fd-find",
       "fzf",
@@ -57,4 +55,10 @@
       "pipx",
       "python@3.12",
       "rbw",
+      "node",
+    ]
+
+[npm]
+    install = [
+      "@devcontainers/cli"
     ]

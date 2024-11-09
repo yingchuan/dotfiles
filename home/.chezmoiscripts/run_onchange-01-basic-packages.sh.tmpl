@@ -36,6 +36,7 @@ pipx install poetry
 # install ruff
 pipx install ruff
 {{ end }}
+# handle npm packages
 {{/* with amd64 or macos, we use brew to manage packages */ -}}
 {{ if (or (eq .chezmoi.os "darwin") (and (eq .chezmoi.os "linux") (eq .chezmoi.arch "amd64"))) -}}
 {{/* check homebrew installation */ -}}
@@ -47,13 +48,14 @@ if ! which brew > /dev/null; then
 else
   echo "Homebrew is already installed."
 fi
-{{ end }}
-
+{{ end -}}
 export HOMEBREW_NO_INSTALL_CLEANUP=true
 {{ range .homebrew.formulae -}}
   /home/linuxbrew/.linuxbrew/bin/brew reinstall {{ . }}
 {{ end -}}
-
+{{ range .npm.install -}}
+/home/linuxbrew/.linuxbrew/bin/npm install -g {{ . }}
+{{ end -}}
 # install pyenv
 PYENV_ROOT="$HOME/.pyenv"
 [ ! -d $PYENV_ROOT/bin ] && {
