@@ -14,8 +14,6 @@
       "python3-venv",
       "python3-full",
       "pipx",
-      "nodejs",
-      "npm",
       "curl",
       "fd-find",
       "fzf",
@@ -42,6 +40,7 @@
       { instance = "aws-cli", args = "--channel=v1/stable --classic" },
       { instance = "kubectl", args = "--classic" },
       { instance = "helm", args = "--classic" },
+      { instance = "node", args = "--classic" },
     ]
 
 [homebrew]
