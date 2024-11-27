@@ -33,7 +33,7 @@
       "wireguard",
       "cmake",
       "ca-certificates",
-      "debootstrap",
+      "ovmf",
     ]
     snap = [
       { instance = "nvim", args = "--classic" },
