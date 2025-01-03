@@ -27,6 +27,10 @@
   {{ $sudo }} apt-get update
   {{ $sudo }} sudo apt-get install -yy docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 }
+# install nerd font
+rm -rf ~/.local/share/fonts
+mkdir -p ~/.local/share/fonts
+cd ~/.local/share/fonts && curl -fLO https://github.com/ryanoasis/nerd-fonts/raw/HEAD/patched-fonts/DroidSansMono/DroidSansMNerdFont-Regular.otf
 # install lazygit
 [ ! -f $HOME/go/bin/lazygit ] && {
   go install github.com/jesseduffield/lazygit@latest
