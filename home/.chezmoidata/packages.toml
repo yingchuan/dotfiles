@@ -35,6 +35,8 @@
       "ca-certificates",
       "ovmf",
       "git-lfs",
+      "pbcopy",
+      "wl-clipboard",
     ]
     snap = [
       { instance = "nvim", args = "--classic" },
