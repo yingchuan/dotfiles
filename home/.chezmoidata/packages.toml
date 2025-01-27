@@ -48,6 +48,7 @@
 [homebrew]
     formulae = [
       "tmux",
+      "tmate",
       "neovim",
       "jq",
       "python-yq",
