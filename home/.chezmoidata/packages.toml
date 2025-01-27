@@ -35,7 +35,7 @@
       "ca-certificates",
       "ovmf",
       "git-lfs",
-      "pbcopy",
+      "xclip",
       "wl-clipboard",
     ]
     snap = [
