@@ -63,6 +63,7 @@
       "rbw",
       "node",
       "zig",
+      "typst",
     ]
 
 [npm]
