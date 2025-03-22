@@ -36,7 +36,7 @@
       "ovmf",
       "git-lfs",
       "xclip",
-      "wl-clipboard",
+      "wl-clipboard"
     ]
     snap = [
       { instance = "nvim", args = "--classic" },
@@ -64,6 +64,7 @@
       "node",
       "zig",
       "typst",
+      "ffmeg"
     ]
 
 [npm]
