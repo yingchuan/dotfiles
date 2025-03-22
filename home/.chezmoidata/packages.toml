@@ -64,7 +64,8 @@
       "rbw",
       "node",
       "zig",
-      "typst"
+      "typst",
+      "youtube-dl"
     ]
 
 [npm]
