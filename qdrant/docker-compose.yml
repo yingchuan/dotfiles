@@ -1,0 +1,13 @@
+services:
+  qdrant:
+    image: qdrant/qdrant:latest
+    container_name: qdrant
+    ports:
+      - "6333:6333"  # REST API - for embedding/vector queries
+      - "6334:6334"  # gRPC API - optional (enable if needed)
+      # - "6335:6335"  # Dev/debug metrics - enable only if needed
+    volumes:
+      - ~/.local/share/qdrant:/qdrant/storage  # persist index and data
+    restart: unless-stopped
+    environment:
+      QDRANT__SERVICE__HOST: "0.0.0.0"

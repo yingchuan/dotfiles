@@ -27,6 +27,10 @@
   {{ $sudo }} apt-get update
   {{ $sudo }} apt-get install -yy docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
   {{ $sudo }} usermod -aG docker $USER
+  echo "[chezmoi] Reloading systemd user daemon..."
+  systemctl --user daemon-reexec
+  echo "[chezmoi] Enabling and starting qdrant-compose.service..."
+  systemctl --user enable --now qdrant-compose.service
 }
 # install nerd font
 rm -rf ~/.local/share/fonts
