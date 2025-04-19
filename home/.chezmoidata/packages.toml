@@ -65,7 +65,8 @@
       "node",
       "zig",
       "typst",
-      "autoconf"
+      "autoconf",
+      "bear"
     ]
 
 [npm]
