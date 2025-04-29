@@ -70,7 +70,7 @@ ZSH_THEME="bira"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git fzf history zsh-autosuggestions zsh-syntax-highlighting ssh-agent direnv)
+plugins=(git fzf history zsh-autosuggestions zsh-syntax-highlighting ssh-agent)
 
 {{ $ssh_key := "ui-py-utils-user" -}}
 {{ $my_ssh_key := "ui-m2-macos" -}}
@@ -124,3 +124,5 @@ export GPG_TTY=$(tty)
 alias dev-build='devcontainer build --workspace-folder .'
 alias dev-up='devcontainer up --workspace-folder .'
 alias dev-exec='devcontainer exec --workspace-folder .'
+
+eval "$(direnv hook zsh)"
