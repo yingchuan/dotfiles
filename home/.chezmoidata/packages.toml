@@ -67,10 +67,12 @@
       "typst",
       "autoconf",
       "bear",
-      "rclone"
+      "rclone",
+      "direnv"
     ]
 
 [npm]
     install = [
-      "@devcontainers/cli"
+      "@devcontainers/cli",
+      "@openai/codex"
     ]
