@@ -19,7 +19,8 @@ fi
 
 # Build the project with release optimization.
 echo "[chezmoi:zine] Building zine with zig..."
-zig -C "{{ $zine_dir }}" build -Doptimize=ReleaseFast
+cd "{{ $zine_dir }}"
+zig build -Doptimize=ReleaseFast
 
 # Install the compiled binary to $HOME/.local/bin
 echo "[chezmoi:zine] Installing to $HOME/.local/bin ..."
