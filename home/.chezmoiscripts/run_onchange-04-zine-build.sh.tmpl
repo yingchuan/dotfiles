@@ -1,0 +1,28 @@
+{{- $zine_dir := printf "%s/zine" .chezmoi.homeDir -}}
+#!/usr/bin/env bash
+set -e
+
+# Fail immediately if zig is missing.
+if ! command -v zig >/dev/null 2>&1; then
+  echo "[chezmoi:zine] ERROR: zig is not installed. Skipping zine build/install."
+  exit 0
+fi
+
+# Clone zine repo if not present, otherwise pull the latest.
+if [ ! -d "{{ $zine_dir }}" ]; then
+  echo "[chezmoi:zine] zine directory does not exist. Cloning repo..."
+  git clone git@github.com:kristoff-it/zine.git "{{ $zine_dir }}"
+else
+  echo "[chezmoi:zine] zine directory exists. Pulling latest changes..."
+  git -C "{{ $zine_dir }}" pull
+fi
+
+# Build the project with release optimization.
+echo "[chezmoi:zine] Building zine with zig..."
+zig -C "{{ $zine_dir }}" build -Doptimize=ReleaseFast
+
+# Install the compiled binary to $HOME/.local/bin
+echo "[chezmoi:zine] Installing to $HOME/.local/bin ..."
+install -Dm755 "{{ $zine_dir }}/zig-out/bin/zine" "$HOME/.local/bin/zine"
+
+echo "[chezmoi:zine] Build and install complete!"
