@@ -68,7 +68,8 @@
       "autoconf",
       "bear",
       "rclone",
-      "direnv"
+      "direnv",
+      "shfmt"
     ]
 
 [npm]
