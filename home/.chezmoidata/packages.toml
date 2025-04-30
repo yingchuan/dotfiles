@@ -77,12 +77,12 @@
       "php",
       "composer",
       "openjdk",
-      "julia",
-      "mermaid-cli"
+      "julia"
     ]
 
 [npm]
     install = [
       "@devcontainers/cli",
-      "@openai/codex"
+      "@openai/codex",
+      "@mermaid-js/mermaid-cli"
     ]
