@@ -8,3 +8,5 @@ vim.opt.clipboard = "unnamedplus"
 vim.g.lazyvim_python_lsp = "ruff"
 -- Set to "ruff_lsp" to use the old LSP implementation version.
 vim.g.lazyvim_python_ruff = "ruff"
+vim.g.snacks_animate = false
+vim.g.python3_host_prog = os.getenv("HOME") .. "/.pyenv/versions/nvim-py/bin/python"

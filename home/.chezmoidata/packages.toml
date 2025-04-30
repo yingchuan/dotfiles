@@ -38,7 +38,8 @@
       "xclip",
       "wl-clipboard",
       "ffmpeg",
-      "luarocks"
+      "luarocks",
+      "cpanminus"
     ]
     snap = [
       { instance = "nvim", args = "--classic" },
@@ -88,5 +89,6 @@
       "@devcontainers/cli",
       "@openai/codex",
       "playwright@latest",
-      "@mermaid-js/mermaid-cli"
+      "@mermaid-js/mermaid-cli",
+      "neovim"
     ]
