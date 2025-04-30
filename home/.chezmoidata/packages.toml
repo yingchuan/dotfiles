@@ -72,7 +72,12 @@
       "direnv",
       "shfmt",
       "aichat",
-      "imagemagick"
+      "imagemagick",
+      "rust",
+      "php",
+      "composer",
+      "openjdk",
+      "julia"
     ]
 
 [npm]
