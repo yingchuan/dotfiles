@@ -77,7 +77,8 @@
       "php",
       "composer",
       "openjdk",
-      "julia"
+      "julia",
+      "mermaid-cli"
     ]
 
 [npm]
