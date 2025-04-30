@@ -7,8 +7,12 @@ return {
       "nvim-treesitter/nvim-treesitter",
     },
     opts = {
-      explorer = { enable = true }, -- 打開 Snacks.explorer
-      image = { enable = true }, -- 打開 Snacks.image
+      explorer = { enable = true },
+      image = { enable = true },
+      picker = {
+        enabled = true,
+        ui_select = true,
+      },
     },
     config = function(_, opts)
       require("snacks").setup(opts)
