@@ -84,5 +84,6 @@
     install = [
       "@devcontainers/cli",
       "@openai/codex",
+      "playwright@latest",
       "@mermaid-js/mermaid-cli"
     ]
