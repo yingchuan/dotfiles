@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# ──────────────────────────────────────────────────────────────────────────────
+# run_onchange-05-nvim-py.sh.tmpl
+#
+# Automate uv-managed Python for Neovim:
+# 1) pin Python 3.13.3 in ~/.config/nvim
+# 2) install it if missing
+# 3) create .venv and install pynvim if needed
+# ──────────────────────────────────────────────────────────────────────────────
+
+NVIM_CONF="$HOME/.config/nvim"
+PY_VER="3.13.3"
+
+# 1) Pin the project to Python 3.13.3
+cd "$NVIM_CONF"
+uv python pin "$PY_VER"
+
+# 2) If that version isn't managed yet, install it
+if ! uv python find "$PY_VER" >/dev/null 2>&1; then
+  uv python install --managed-python "$PY_VER"
+fi
+
+# 3) Ensure a virtual environment exists
+cd "$NVIM_CONF"
+if [ ! -d ".venv" ]; then
+  uv venv
+fi
+
+# 4) Install pynvim into the venv if it's not already present
+if ! uv pip show pynvim >/dev/null 2>&1; then
+  uv pip install pynvim
+fi
+
