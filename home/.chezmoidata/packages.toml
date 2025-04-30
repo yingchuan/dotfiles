@@ -37,7 +37,8 @@
       "git-lfs",
       "xclip",
       "wl-clipboard",
-      "ffmpeg"
+      "ffmpeg",
+      "luarocks"
     ]
     snap = [
       { instance = "nvim", args = "--classic" },
