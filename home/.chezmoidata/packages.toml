@@ -69,7 +69,8 @@
       "bear",
       "rclone",
       "direnv",
-      "shfmt"
+      "shfmt",
+      "aichat"
     ]
 
 [npm]
