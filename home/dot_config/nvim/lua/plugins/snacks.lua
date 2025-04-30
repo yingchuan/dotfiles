@@ -2,6 +2,8 @@
 return {
   {
     "echasnovski/snacks.nvim",
+    priority = 1000,
+    lazy = false,
     dependencies = {
       "nvim-lua/plenary.nvim",
       "nvim-treesitter/nvim-treesitter",
@@ -16,6 +18,7 @@ return {
     },
     config = function(_, opts)
       require("snacks").setup(opts)
+      vim.ui.select = require("snacks.picker").select
     end,
   },
 }

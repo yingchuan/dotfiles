@@ -77,7 +77,10 @@
       "php",
       "composer",
       "openjdk",
-      "julia"
+      "julia",
+      "chafa",
+      "viu",
+      "jstkdng/programs/ueberzugpp"
     ]
 
 [npm]
