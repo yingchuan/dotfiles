@@ -70,7 +70,8 @@
       "rclone",
       "direnv",
       "shfmt",
-      "aichat"
+      "aichat",
+      "imagemagick"
     ]
 
 [npm]
