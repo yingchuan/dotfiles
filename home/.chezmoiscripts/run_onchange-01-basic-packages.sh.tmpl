@@ -56,6 +56,7 @@ pipx install aider-chat --python 3.12.10
 # handle npm packages
 {{/* with amd64 or macos, we use brew to manage packages */ -}}
 {{ if (or (eq .chezmoi.os "darwin") (and (eq .chezmoi.os "linux") (eq .chezmoi.arch "amd64"))) -}}
+curl -fsSL https://bodo.run/yek.sh | bash
 {{/* check homebrew installation */ -}}
 if ! which brew > /dev/null; then
   echo "Homebrew not found. Installing Homebrew..."
