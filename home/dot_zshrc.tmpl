@@ -126,3 +126,8 @@ alias dev-up='devcontainer up --workspace-folder .'
 alias dev-exec='devcontainer exec --workspace-folder .'
 
 eval "$(direnv hook zsh)"
+
+if [ -n "$SSH_CONNECTION" ] && [ -n "$WAYLAND_DISPLAY" ]; then
+  echo "Unset invalid $WAYLAND_DISPLAY from SSH pane"
+  unset WAYLAND_DISPLAY
+fi
