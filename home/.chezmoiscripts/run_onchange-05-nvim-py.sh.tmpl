@@ -39,9 +39,15 @@ eval "$(pyenv virtualenv-init -)"
 for version in "${PYTHON_VERSIONS[@]}"; do
     if ! pyenv versions --bare | grep -qx "$version"; then
         echo "[chezmoi:nvim] Installing Python $version via pyenv..."
-        /home/linuxbrew/.linuxbrew/bin/brew unlink pkg-config
+        if command -v brew >/dev/null 2>&1; then
+            brew unlink pkg-config || true
+        fi
         pyenv install "$version"
-        /home/linuxbrew/.linuxbrew/bin/brew link pkg-config
+        if command -v brew >/dev/null 2>&1; then
+            brew link pkg-config || true
+        fi
+    else
+        echo "[chezmoi:nvim] Python $version already installed, skipping"
     fi
 done
 
