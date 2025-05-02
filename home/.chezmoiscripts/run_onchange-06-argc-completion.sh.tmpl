@@ -1,0 +1,21 @@
+#!/bin/bash
+set -euo pipefail
+
+# --- CONFIGURATION ---
+ARGC_COMPLETIONS_DIR="$HOME/.config/argc-completions"
+ARGC_COMPLETIONS_REPO="https://github.com/sigoden/argc-completions.git"
+
+# --- 1. Clone or update argc-completions repo ---
+if [ -d "$ARGC_COMPLETIONS_DIR/.git" ]; then
+  echo "[chezmoi:argc] Updating argc-completions..."
+  git -C "$ARGC_COMPLETIONS_DIR" pull --ff-only
+else
+  echo "[chezmoi:argc] Cloning argc-completions..."
+  git clone "$ARGC_COMPLETIONS_REPO" "$ARGC_COMPLETIONS_DIR"
+fi
+
+# --- 2. Run official setup script ---
+cd "$ARGC_COMPLETIONS_DIR"
+./scripts/setup-shell.sh zsh
+
+echo "[chezmoi:argc] Done."
