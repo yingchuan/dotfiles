@@ -49,12 +49,11 @@ fi
 if ! command -v brew >/dev/null 2>&1; then
   echo "[chezmoi] Installing Homebrew..."
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-  eval "$(brew shellenv)"
   echo 'eval "$(brew shellenv)"' >> ~/.bashrc
 else
   echo "Homebrew is already installed."
-  eval "$(brew shellenv)"
 fi
+eval "$(brew shellenv)"
 
 export HOMEBREW_NO_INSTALL_CLEANUP=true
 
@@ -76,8 +75,16 @@ pipx install aider-chat --python 3.12.10
 # --- Yek CLI ---
 curl -fsSL https://bodo.run/yek.sh | bash
 
-# --- Perl Neovim ---
-$sudo_cmd cpanm Neovim::Ext
+# --- Perl Neovim::Ext (via local::lib) ---
+export PERL_LOCAL_LIB_ROOT="$HOME/perl5"
+export PERL_MB_OPT="--install_base $HOME/perl5"
+export PERL_MM_OPT="INSTALL_BASE=$HOME/perl5"
+export PERL5LIB="$HOME/perl5/lib/perl5"
+export PATH="$HOME/perl5/bin:$PATH"
+
+curl -L https://cpanmin.us | perl - --self-upgrade
+curl -L https://cpanmin.us | perl - App::cpanminus local::lib
+cpanm --local-lib=~/perl5 --notest Neovim::Ext
 
 # --- Brew Formulae ---
 {{ range .homebrew.formulae -}}
