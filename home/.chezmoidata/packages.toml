@@ -87,7 +87,8 @@
       "viu",
       "jstkdng/programs/ueberzugpp",
       "ruby",
-      "argc"
+      "argc",
+      "gawk"
     ]
 
 [npm]
