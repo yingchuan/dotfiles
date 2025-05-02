@@ -4,6 +4,7 @@ set -euo pipefail
 # --- CONFIGURATION ---
 ARGC_COMPLETIONS_DIR="$HOME/.config/argc-completions"
 ARGC_COMPLETIONS_REPO="https://github.com/sigoden/argc-completions.git"
+OUTPUT_FILE="$HOME/.argc-completion.zsh"
 
 # --- 1. Clone or update argc-completions repo ---
 if [ -d "$ARGC_COMPLETIONS_DIR/.git" ]; then
@@ -14,8 +15,16 @@ else
   git clone "$ARGC_COMPLETIONS_REPO" "$ARGC_COMPLETIONS_DIR"
 fi
 
-# --- 2. Run official setup script ---
-cd "$ARGC_COMPLETIONS_DIR"
-./scripts/setup-shell.sh zsh
+# --- 2. Generate code block via setup-shell.sh ---
+TMP_LOG="$(mktemp)"
+(
+  cd "$ARGC_COMPLETIONS_DIR"
+  ./scripts/setup-shell.sh zsh > "$TMP_LOG" 2>&1
+)
 
-echo "[chezmoi:argc] Done."
+echo "[chezmoi:argc] Extracting completion snippet to $OUTPUT_FILE..."
+# Extract text between ``` fences
+sed -n '/^```$/,/^```$/{/^```$/d;p}' "$TMP_LOG" > "$OUTPUT_FILE"
+rm -f "$TMP_LOG"
+
+echo "[chezmoi:argc] Done. Source $OUTPUT_FILE in your shell config."

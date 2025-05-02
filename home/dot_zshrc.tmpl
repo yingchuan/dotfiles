@@ -133,3 +133,5 @@ if [ -n "$SSH_CONNECTION" ] && [ -n "$WAYLAND_DISPLAY" ]; then
   echo "Unset invalid $WAYLAND_DISPLAY from SSH pane"
   unset WAYLAND_DISPLAY
 fi
+
+[ -f "$HOME/.argc-completion.zsh" ] && source "$HOME/.argc-completion.zsh"
