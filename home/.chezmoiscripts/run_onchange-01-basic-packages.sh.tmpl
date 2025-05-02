@@ -86,6 +86,9 @@ curl -L https://cpanmin.us | perl - --self-upgrade
 curl -L https://cpanmin.us | perl - App::cpanminus local::lib
 cpanm --local-lib=~/perl5 --notest Neovim::Ext
 
+# --- Ruby Neovim
+gem install neovim
+
 # --- Brew Formulae ---
 {{ range .homebrew.formulae -}}
 brew reinstall {{ . }}
