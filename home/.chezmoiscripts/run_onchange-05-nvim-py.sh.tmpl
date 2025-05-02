@@ -1,35 +1,63 @@
-#!/usr/bin/env bash
+#!/bin/bash
 set -euo pipefail
 
-# ──────────────────────────────────────────────────────────────────────────────
-# run_onchange-05-nvim-py.sh.tmpl
-#
-# Automate uv-managed Python for Neovim:
-# 1) pin Python 3.13.3 in ~/.config/nvim
-# 2) install it if missing
-# 3) create .venv and install pynvim if needed
-# ──────────────────────────────────────────────────────────────────────────────
+# --- CONFIGURATION ---
+PYENV_ROOT="${HOME}/.pyenv"
+PYTHON_VERSIONS=("3.13.3" "3.12.10")
+VENV_PATH="${HOME}/.config/nvim/nvim-venv"
+VENV_NAME="nvim-venv"
+NEOVIM_PKG="pynvim"
 
-NVIM_CONF="$HOME/.config/nvim"
-PY_VER="3.13.3"
-
-# 1) Pin the project to Python 3.13.3
-cd "$NVIM_CONF"
-uv python pin "$PY_VER"
-
-# 2) If that version isn't managed yet, install it
-if ! uv python find "$PY_VER" >/dev/null 2>&1; then
-  uv python install --managed-python "$PY_VER"
+# --- 1. Ensure pipx and pyenv installed ---
+if ! command -v pipx >/dev/null 2>&1; then
+    echo "[chezmoi:nvim] Installing pipx..."
+    python3 -m ensurepip --upgrade
+    python3 -m pip install --user pipx
+    python3 -m pipx ensurepath
+    export PATH="$HOME/.local/bin:$PATH"
 fi
 
-# 3) Ensure a virtual environment exists
-cd "$NVIM_CONF"
-if [ ! -d ".venv" ]; then
-  uv venv
+if ! command -v pyenv >/dev/null 2>&1; then
+    echo "[chezmoi:nvim] Installing pyenv via pipx..."
+    pipx install pyenv
+    export PATH="$HOME/.local/bin:$PATH"
 fi
 
-# 4) Install pynvim into the venv if it's not already present
-if ! uv pip show pynvim >/dev/null 2>&1; then
-  uv pip install neovim
+# --- 2. Install pyenv-virtualenv ---
+if [ ! -d "${PYENV_ROOT}/plugins/pyenv-virtualenv" ]; then
+    echo "[chezmoi:nvim] Installing pyenv-virtualenv plugin..."
+    git clone https://github.com/pyenv/pyenv-virtualenv.git "${PYENV_ROOT}/plugins/pyenv-virtualenv"
 fi
 
+# Init pyenv + virtualenv
+export PYENV_ROOT="${PYENV_ROOT}"
+export PATH="${PYENV_ROOT}/bin:$PATH"
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
+
+# --- 3. Install Python versions ---
+for version in "${PYTHON_VERSIONS[@]}"; do
+    if ! pyenv versions --bare | grep -qx "$version"; then
+        echo "[chezmoi:nvim] Installing Python $version via pyenv..."
+        /home/linuxbrew/.linuxbrew/bin/brew unlink pkg-config
+        pyenv install "$version"
+        /home/linuxbrew/.linuxbrew/bin/brew link pkg-config
+    fi
+done
+
+# --- 4. Create virtualenv using 3.13.3 ---
+if [ ! -d "${VENV_PATH}" ]; then
+    echo "[chezmoi:nvim] Creating virtualenv $VENV_NAME using Python 3.13.3..."
+    pyenv virtualenv 3.13.3 "$VENV_NAME"
+    mkdir -p "$(dirname "$VENV_PATH")"
+    ln -s "${PYENV_ROOT}/versions/${VENV_NAME}" "${VENV_PATH}"
+else
+    echo "[chezmoi:nvim] Virtualenv already exists at $VENV_PATH"
+fi
+
+# --- 5. Install neovim package ---
+echo "[chezmoi:nvim] Installing neovim Python package..."
+"${VENV_PATH}/bin/pip" install --upgrade pip
+"${VENV_PATH}/bin/pip" install "$NEOVIM_PKG"
+
+echo "[chezmoi:nvim] Done."

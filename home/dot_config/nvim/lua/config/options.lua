@@ -9,4 +9,4 @@ vim.g.lazyvim_python_lsp = "ruff"
 -- Set to "ruff_lsp" to use the old LSP implementation version.
 vim.g.lazyvim_python_ruff = "ruff"
 vim.g.snacks_animate = false
-vim.g.python3_host_prog = os.getenv("HOME") .. "/.local/bin/uv run"
+vim.g.python3_host_prog = os.getenv("HOME") .. "/.config/nvim/nvim-venv/bin/python3"
