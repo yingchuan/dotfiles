@@ -12,7 +12,7 @@
       "libncurses5-dev",
       "libgdbm-dev",
       "libgdbm-compat-dev",
-      "libxcrypt-dev",
+      "libcrypt-dev",
       "tk-dev",
       "python3-pip",
       "python3-venv",
