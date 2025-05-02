@@ -1,83 +1,99 @@
-{{ $sudo := "sudo" -}}
-{{ if eq .chezmoi.username "root" }}
-{{ $sudo = "" -}}
-{{ end -}}
-#! /bin/bash
-{{/* ubuntu could be amd64 or arm64 (vm in a macbook mX) */ -}}
-{{ if (or (eq .chezmoi.osRelease.id "ubuntu") (eq .chezmoi.osRelease.id "pop")) -}}
-{{ $sudo }} apt update
+#!/bin/bash
+set -euo pipefail
+
+# --- CONFIG ---
+sudo_cmd="sudo"
+
+# --- System Update & Apt Packages ---
+$sudo_cmd apt update
 {{ range .ubuntu.apt -}}
-{{ $sudo }} apt install -yy {{ . }}
+$sudo_cmd apt install -yy {{ . }}
 {{ end }}
-# install snap
+
+# --- Snap Packages ---
 {{ range .ubuntu.snap -}}
-{{ $sudo }} snap install {{ .instance }} {{ .args }}
-{{ end -}}
-# install docker
-[ ! -f /etc/apt/keyrings/docker.asc ] && {
-  # Add Docker's official GPG key:
-  {{ $sudo }} install -m 0755 -d /etc/apt/keyrings
-  {{ $sudo }} curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
-  {{ $sudo }} chmod a+r /etc/apt/keyrings/docker.asc
-  # Add the repository to Apt sources:
+$sudo_cmd snap install {{ .instance }} {{ .args }}
+{{ end }}
+
+# --- Docker Installation ---
+if [ ! -f /etc/apt/keyrings/docker.asc ]; then
+  echo "[chezmoi] Installing Docker..."
+  $sudo_cmd install -m 0755 -d /etc/apt/keyrings
+  $sudo_cmd curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+  $sudo_cmd chmod a+r /etc/apt/keyrings/docker.asc
+
   echo \
   "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
   $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
-  {{ $sudo }} tee /etc/apt/sources.list.d/docker.list > /dev/null
-  {{ $sudo }} apt-get update
-  {{ $sudo }} apt-get install -yy docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-  {{ $sudo }} usermod -aG docker $USER
-  echo "[chezmoi] Reloading systemd user daemon..."
+  $sudo_cmd tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+  $sudo_cmd apt-get update
+  $sudo_cmd apt-get install -yy docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+  $sudo_cmd usermod -aG docker $USER
   systemctl --user daemon-reexec
-  echo "[chezmoi] Enabling and starting qdrant-compose.service..."
   systemctl --user enable --now qdrant-compose.service
-}
-# install nerd font
+fi
+
+# --- Fonts ---
+echo "[chezmoi] Installing Nerd Font..."
 rm -rf ~/.local/share/fonts
 mkdir -p ~/.local/share/fonts
 cd ~/.local/share/fonts && curl -fLO https://github.com/ryanoasis/nerd-fonts/raw/HEAD/patched-fonts/DroidSansMono/DroidSansMNerdFont-Regular.otf
-# install lazygit
-[ ! -f $HOME/go/bin/lazygit ] && {
+
+# --- LazyGit ---
+if [ ! -f "$HOME/go/bin/lazygit" ]; then
   go install github.com/jesseduffield/lazygit@latest
-}
-# install poetry
-pipx install poetry
-# install ruff
-pipx install ruff uv
-# install pre-commit
-pipx install pre-commit
-# install whisper
-pipx install git+https://github.com/openai/whisper.git
-# install audio/video downloader openai and openai-whisper
-pipx install yt-dlp openai-whisper openai
-# install aider
-pipx install aider-chat --python 3.12.10
-{{ end }}
-curl -fsSL https://bodo.run/yek.sh | bash
-cpanm Neovim::Ext
-# handle npm packages
-{{/* with amd64 or macos, we use brew to manage packages */ -}}
-{{ if (or (eq .chezmoi.os "darwin") (and (eq .chezmoi.os "linux") (eq .chezmoi.arch "amd64"))) -}}
-{{/* check homebrew installation */ -}}
-if ! which brew > /dev/null; then
-  echo "Homebrew not found. Installing Homebrew..."
+fi
+
+# --- Homebrew ---
+if ! command -v brew >/dev/null 2>&1; then
+  echo "[chezmoi] Installing Homebrew..."
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-  CMD='eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"'
-  echo $CMD >> $HOME/.bashrc
+  eval "$(brew shellenv)"
+  echo 'eval "$(brew shellenv)"' >> ~/.bashrc
 else
   echo "Homebrew is already installed."
+  eval "$(brew shellenv)"
 fi
-{{ end -}}
+
 export HOMEBREW_NO_INSTALL_CLEANUP=true
+
+# --- pipx via Homebrew ---
+if ! command -v pipx >/dev/null 2>&1; then
+  echo "[chezmoi] Installing pipx via Homebrew..."
+  brew install pipx
+  pipx ensurepath
+fi
+
+# --- pipx Packages ---
+pipx install poetry
+pipx install ruff uv
+pipx install pre-commit
+pipx install git+https://github.com/openai/whisper.git
+pipx install yt-dlp openai-whisper openai
+pipx install aider-chat --python 3.12.10
+
+# --- Yek CLI ---
+curl -fsSL https://bodo.run/yek.sh | bash
+
+# --- Perl Neovim ---
+cpanm Neovim::Ext
+
+# --- Brew Formulae ---
 {{ range .homebrew.formulae -}}
-  /home/linuxbrew/.linuxbrew/bin/brew reinstall {{ . }}
-{{ end -}}
+brew reinstall {{ . }}
+{{ end }}
+
+# --- Global NPM Packages ---
 {{ range .npm.install -}}
-/home/linuxbrew/.linuxbrew/bin/npm install -g {{ . }}
-{{ end -}}
-# install pyenv
+npm install -g {{ . }}
+{{ end }}
+
+# --- Pyenv Installation ---
 PYENV_ROOT="$HOME/.pyenv"
-[ ! -d $PYENV_ROOT/bin ] && {
+if [ ! -d "$PYENV_ROOT/bin" ]; then
+  echo "[chezmoi] Installing pyenv..."
   curl https://pyenv.run | bash
-}
+fi
+
 exit 0
