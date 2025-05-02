@@ -37,7 +37,7 @@ eval "$(pyenv virtualenv-init -)"
 
 # --- 3. Install Python versions ---
 for version in "${PYTHON_VERSIONS[@]}"; do
-    if ! pyenv versions --bare | grep -qx "$version"; then
+    if [ ! -d "$PYENV_ROOT/versions/$version" ]; then
         echo "[chezmoi:nvim] Installing Python $version via pyenv..."
         if command -v brew >/dev/null 2>&1; then
             brew unlink pkg-config || true
