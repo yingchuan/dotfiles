@@ -43,7 +43,12 @@
       "wl-clipboard",
       "ffmpeg",
       "luarocks",
-      "cpanminus"
+      "cpanminus",
+      "g++-11",
+      "libtbb-dev",
+      "libchafa-dev",
+      "libsixel-dev",
+      "libvips-dev"
     ]
     snap = [
       { instance = "nvim", args = "--classic" },
