@@ -86,6 +86,9 @@ curl -L https://cpanmin.us | perl - --self-upgrade
 curl -L https://cpanmin.us | perl - App::cpanminus local::lib
 cpanm --local-lib=~/perl5 --notest Neovim::Ext
 
+# for jstkdng/programs/ueberzugpp
+brew tap jstkdng/programs
+
 # --- Brew Formulae ---
 {{ range .homebrew.formulae -}}
 brew reinstall {{ . }}
