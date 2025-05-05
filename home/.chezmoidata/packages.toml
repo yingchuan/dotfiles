@@ -93,7 +93,8 @@
       "jstkdng/programs/ueberzugpp",
       "ruby",
       "argc",
-      "gawk"
+      "gawk",
+      "navi"
     ]
 
 [npm]
