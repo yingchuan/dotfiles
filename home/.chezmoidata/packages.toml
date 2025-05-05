@@ -95,7 +95,8 @@
       "argc",
       "gawk",
       "navi",
-      "tlrc"
+      "tlrc",
+      "rlwrap"
     ]
 
 [npm]
