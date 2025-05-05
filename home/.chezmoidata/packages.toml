@@ -94,7 +94,8 @@
       "ruby",
       "argc",
       "gawk",
-      "navi"
+      "navi",
+      "tlrc"
     ]
 
 [npm]
