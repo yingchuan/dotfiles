@@ -105,5 +105,6 @@
       "@openai/codex",
       "playwright@latest",
       "@mermaid-js/mermaid-cli",
-      "neovim"
+      "neovim",
+      "tldr"
     ]
