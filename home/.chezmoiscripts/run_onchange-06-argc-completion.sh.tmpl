@@ -51,4 +51,11 @@ _scripts_str="${_scripts[*]}"
 
 # --- 5. Replace the argc_scripts block with the merged list ---
 # Overwrite the existing argc_scripts block (from its start line to the closing parenthesis)
-sed -i "/^argc_scripts=(/,/)/c\\argc_scripts=( ${_scripts_str} )" "$OUTPUT_FILE"
+sed -i "/^argc_scripts=(/,/)/c\\
+argc_scripts=( ${_scripts_str} )" "$OUTPUT_FILE"
+
+# --- 6. Ensure source invocation is present ---
+# Remove any existing source line to avoid duplicates
+sed -i "/^source <(argc --argc-completions zsh/ d" "$OUTPUT_FILE"
+# Append correct source invocation
+echo "source <(argc --argc-completions zsh \"\\${argc_scripts[@]}\")" >> "$OUTPUT_FILE"
