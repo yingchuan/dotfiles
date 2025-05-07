@@ -4,6 +4,7 @@ set -euo pipefail
 # --- CONFIGURATION ---
 ARGC_COMPLETIONS_DIR="$HOME/.config/argc-completions"
 ARGC_COMPLETIONS_REPO="https://github.com/sigoden/argc-completions.git"
+ARGC_COMPLETIONS_LOCAL="$HOME/.config/argc-completion.local"
 OUTPUT_FILE="$HOME/.argc-completion.zsh"
 
 # --- 1. Clone or update argc-completions repo ---
@@ -26,5 +27,22 @@ echo "[chezmoi:argc] Extracting completion snippet to $OUTPUT_FILE..."
 # Extract text between ``` fences
 sed -n '/^```$/,/^```$/{/^```$/d;p}' "$TMP_LOG" > "$OUTPUT_FILE"
 rm -f "$TMP_LOG"
+
+# --- 3. Append local customization ---
+cat >> "$OUTPUT_FILE" <<EOF
+
+# === Custom local completions ===
+export ARGC_COMPLETIONS_PATH="\$ARGC_COMPLETIONS_ROOT/completions/linux:\$ARGC_COMPLETIONS_ROOT/completions:$ARGC_COMPLETIONS_LOCAL"
+
+# Combine scripts from all paths
+argc_scripts=(
+\$(ls -p -1 \
+  "\$ARGC_COMPLETIONS_ROOT/completions/linux" \
+  "\$ARGC_COMPLETIONS_ROOT/completions" \
+  "$ARGC_COMPLETIONS_LOCAL" 2>/dev/null | sed -n 's/\.sh$//p')
+)
+
+source <(argc --argc-completions zsh \${argc_scripts[@]})
+EOF
 
 echo "[chezmoi:argc] Done. Source $OUTPUT_FILE in your shell config."
