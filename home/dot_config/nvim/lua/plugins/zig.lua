@@ -13,29 +13,17 @@ return {
   },
   {
     "stevearc/conform.nvim",
-    opts = {
-      formatters_by_ft = {
+    opts = function(_, opts)
+      opts.formatters_by_ft = vim.tbl_extend("force", opts.formatters_by_ft or {}, {
         zig = { "zigfmt" },
-      },
-      formatters = {
+      })
+
+      opts.formatters = vim.tbl_extend("force", opts.formatters or {}, {
         zigfmt = {
           command = "zig",
-          args = { "fmt", "-" },
+          args = { "fmt", "--stdin" },
           stdin = true,
         },
-      },
-    },
-  },
-  {
-    "stevearc/conform.nvim",
-    event = "BufWritePre",
-    opts = {},
-    config = function()
-      vim.api.nvim_create_autocmd("BufWritePre", {
-        pattern = "*.zig",
-        callback = function()
-          require("conform").format({ async = false })
-        end,
       })
     end,
   },
