@@ -8,7 +8,7 @@ config.font = wezterm.font("JetBrains Mono")
 config.font_size = 14
 
 config.keys = {
-	{ key = "L", mods = "CTRL", action = wezterm.action.ShowDebugOverlay },
+	{ key = "l", mods = "CTRL|SHIFT", action = wezterm.action.ShowDebugOverlay },
 }
 
 local runtime_dir = os.getenv("XDG_RUNTIME_DIR")
@@ -103,7 +103,7 @@ config.keys = {
 	------------------------------------------------------------------
 	{
 		key = "c",
-		mods = "LEADER", -- 大寫 C
+		mods = "LEADER|SHIFT", -- 大寫 C
 		action = wezterm.action_callback(function(win, pane)
 			win:gui_window()
 				:prompt_for_input_async({ description = "New workspace name:", default = "proj" }, function(_, name)
