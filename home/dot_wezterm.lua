@@ -145,4 +145,27 @@ wezterm.on("update-status", function(win, _)
 	}))
 end)
 
+-- monitor format-tab-title event from the self-defined title
+wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_width)
+	local pane = tab.active_pane
+
+	-- fetch the title
+	local title = pane.title
+
+	local is_ssh = false
+
+	if pane.domain_name and pane.domain_name ~= "local" then
+		is_ssh = true
+	end
+
+	local display_title = ""
+	if is_ssh then
+		display_title = "🌐" .. " " .. title
+	else
+		display_title = title
+	end
+
+	return tab.tab_index + 1 .. ": " .. display_title
+end)
+
 return config
