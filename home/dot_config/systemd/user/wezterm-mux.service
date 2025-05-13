@@ -1,0 +1,14 @@
+[Unit]
+Description=WezTerm Multiplexer (mux) Server
+After=network.target
+
+[Service]
+Type=simple
+# --daemonize=no 讓 systemd 能追蹤 process；--unix-domain unix 對應下方 wezterm 設定
+ExecStart=/usr/bin/wezterm-mux-server
+Restart=on-failure
+# 可選的環境變數；有需要再打開
+#Environment=WEZTERM_LOG=info
+
+[Install]
+WantedBy=default.target
