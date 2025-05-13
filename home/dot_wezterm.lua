@@ -39,10 +39,11 @@ config.ssh_domains = {
 	},
 }
 
+config.default_workspace = "Development"
 -- key bindings
 -- set leader
-config.leader = { key = "b", mods = "CTRL", timeout_milliseconds = 3000 }
 
+config.leader = { key = "b", mods = "CTRL", timeout_milliseconds = 3000 }
 config.keys = {
 	------------------------------------------------------------------
 	-- Window / Tab
