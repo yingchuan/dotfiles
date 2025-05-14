@@ -40,9 +40,11 @@ config.ssh_domains = {
 }
 
 config.default_workspace = "Development"
+config.tab_bar_at_bottom = true
+config.use_fancy_tab_bar = true
+
 -- key bindings
 -- set leader
-
 config.leader = { key = "b", mods = "CTRL", timeout_milliseconds = 3000 }
 config.keys = {
 	------------------------------------------------------------------
@@ -145,13 +147,33 @@ wezterm.on("update-status", function(win, _)
 	}))
 end)
 
+wezterm.on("update-status", function(window, pane)
+	local username = os.getenv("USER") or os.getenv("USERNAME") or "unknown"
+
+	local success, hostname_output, stderr = wezterm.run_child_process({ "hostname" })
+	local hostname = "unknown"
+	if success then
+		hostname = hostname_output:gsub("%s+", "")
+	end
+
+	window:set_right_status(wezterm.format({
+		{ Foreground = { Color = "#ffffff" } }, -- Changed to white
+		{ Text = " │ " }, -- Just the icon
+		{ Foreground = { Color = "#75b5aa" } }, -- Keep username in teal
+		{ Text = username }, -- Just the username
+		{ Foreground = { Color = "#ffffff" } }, -- Already white
+		{ Text = " │ " }, -- The separator
+		{ Foreground = { Color = "#ffb86c" } }, -- Keep hostname in orange
+		{ Text = hostname .. " " }, -- The hostname
+	}))
+end)
+
 -- monitor format-tab-title event from the self-defined title
 wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_width)
 	local pane = tab.active_pane
 
 	-- fetch the title
 	local title = pane.title
-
 	local is_ssh = false
 
 	if pane.domain_name and pane.domain_name ~= "local" then
