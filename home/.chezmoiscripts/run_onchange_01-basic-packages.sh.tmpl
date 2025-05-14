@@ -76,6 +76,14 @@ pipx install yt-dlp openai-whisper openai
 # --- Yek CLI ---
 curl -fsSL https://bodo.run/yek.sh | bash
 
+# for jstkdng/programs/ueberzugpp
+brew tap jstkdng/programs
+
+# --- Brew Formulae ---
+{{ range .homebrew.formulae -}}
+brew reinstall {{ . }}
+{{ end }}
+
 # --- Perl Neovim::Ext (via local::lib) ---
 export PERL_LOCAL_LIB_ROOT="$HOME/perl5"
 export PERL_MB_OPT="--install_base $HOME/perl5"
@@ -86,14 +94,6 @@ export PATH="$HOME/perl5/bin:$PATH"
 curl -L https://cpanmin.us | perl - --self-upgrade
 curl -L https://cpanmin.us | perl - App::cpanminus local::lib
 cpanm --local-lib=~/perl5 --notest Neovim::Ext
-
-# for jstkdng/programs/ueberzugpp
-brew tap jstkdng/programs
-
-# --- Brew Formulae ---
-{{ range .homebrew.formulae -}}
-brew reinstall {{ . }}
-{{ end }}
 
 # --- Ruby Neovim
 gem install neovim
