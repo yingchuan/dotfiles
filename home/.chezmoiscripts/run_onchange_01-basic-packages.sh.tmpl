@@ -31,7 +31,8 @@ if [ ! -f /etc/apt/keyrings/docker.asc ]; then
   $sudo_cmd apt-get install -yy docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
   $sudo_cmd usermod -aG docker $USER
   systemctl --user daemon-reexec
-  systemctl --user enable --now qdrant-compose.service
+  # not yet to support since RAG implementation is not in plan recently.
+  # systemctl --user enable --now qdrant-compose.service
 fi
 
 # --- Fonts ---
@@ -65,6 +66,7 @@ if ! command -v pipx >/dev/null 2>&1; then
 fi
 
 # --- pipx Packages ---
+export PATH="$HOME/.local/bin:$PATH"
 pipx install poetry
 pipx install ruff uv
 pipx install pre-commit
