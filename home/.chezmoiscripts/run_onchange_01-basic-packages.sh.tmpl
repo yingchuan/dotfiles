@@ -46,16 +46,16 @@ if [ ! -f "$HOME/go/bin/lazygit" ]; then
 fi
 
 # --- Homebrew ---
+test -d /home/linuxbrew/.linuxbrew && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+export HOMEBREW_NO_INSTALL_CLEANUP=true
+
 if ! command -v brew >/dev/null 2>&1; then
   echo "[chezmoi] Installing Homebrew..."
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-  echo 'eval "$(brew shellenv)"' >> ~/.bashrc
+  echo "eval \"\$($(brew --prefix)/bin/brew shellenv)\"" >> ~/.bashrc
 else
   echo "Homebrew is already installed."
 fi
-eval "$(brew shellenv)"
-
-export HOMEBREW_NO_INSTALL_CLEANUP=true
 
 # --- pipx via Homebrew ---
 if ! command -v pipx >/dev/null 2>&1; then
@@ -70,7 +70,6 @@ pipx install ruff uv
 pipx install pre-commit
 pipx install git+https://github.com/openai/whisper.git
 pipx install yt-dlp openai-whisper openai
-pipx install aider-chat --python 3.12.10
 
 # --- Yek CLI ---
 curl -fsSL https://bodo.run/yek.sh | bash
@@ -101,12 +100,5 @@ gem install neovim
 {{ range .npm.install -}}
 npm install -g {{ . }}
 {{ end }}
-
-# --- Pyenv Installation ---
-PYENV_ROOT="$HOME/.pyenv"
-if [ ! -d "$PYENV_ROOT/bin" ]; then
-  echo "[chezmoi] Installing pyenv..."
-  curl https://pyenv.run | bash
-fi
 
 exit 0

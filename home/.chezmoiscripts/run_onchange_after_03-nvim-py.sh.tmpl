@@ -8,19 +8,12 @@ VENV_PATH="${HOME}/.config/nvim/nvim-venv"
 VENV_NAME="nvim-venv"
 NEOVIM_PKG="pynvim"
 
-# --- 1. Ensure pipx and pyenv installed ---
-if ! command -v pipx >/dev/null 2>&1; then
-    echo "[chezmoi:nvim] Installing pipx..."
-    python3 -m ensurepip --upgrade
-    python3 -m pip install --user pipx
-    python3 -m pipx ensurepath
-    export PATH="$HOME/.local/bin:$PATH"
-fi
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 
+# --- 1. Ensure pyenv installed ---
 if ! command -v pyenv >/dev/null 2>&1; then
-    echo "[chezmoi:nvim] Installing pyenv via pipx..."
-    pipx install pyenv
-    export PATH="$HOME/.local/bin:$PATH"
+    echo "[chezmoi:nvim] Installing pyenv via brew..."
+    brew install pyenv
 fi
 
 # --- 2. Install pyenv-virtualenv ---

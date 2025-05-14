@@ -71,6 +71,7 @@
       "fzf",
       "zsh",
       "pipx",
+      "pyenv",
       "python@3.12",
       "rbw",
       "node",

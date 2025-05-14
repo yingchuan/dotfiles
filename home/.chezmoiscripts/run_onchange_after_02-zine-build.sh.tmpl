@@ -2,10 +2,12 @@
 #!/usr/bin/env bash
 set -e
 
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+
 # Fail immediately if zig is missing.
 if ! command -v zig >/dev/null 2>&1; then
   echo "[chezmoi:zine] ERROR: zig is not installed. Skipping zine build/install."
-  exit 0
+  exit 1
 fi
 
 # Clone zine repo if not present, otherwise pull the latest.
