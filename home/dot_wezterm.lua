@@ -5,7 +5,7 @@ local config = wezterm.config_builder()
 
 config.color_scheme = "Belge (terminal.sexy)"
 config.font = wezterm.font("JetBrains Mono")
-config.font_size = 14
+config.font_size = 12
 
 config.keys = {
 	{ key = "l", mods = "CTRL|SHIFT", action = wezterm.action.ShowDebugOverlay },
@@ -39,7 +39,7 @@ config.ssh_domains = {
 	},
 	{
 		name = "wsl",
-		remote_address = "localhost",
+		remote_address = "localhost:2222",
 		username = "richardchen",
 	},
 }
