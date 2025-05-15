@@ -37,6 +37,11 @@ config.ssh_domains = {
 		-- The username to use on the remote host
 		username = "richardchen",
 	},
+	{
+		name = "wsl",
+		remote_address = "localhost",
+		username = "richardchen",
+	},
 }
 
 config.default_workspace = "Development"
