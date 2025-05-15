@@ -192,7 +192,7 @@ wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_wid
 		display_title = title
 	end
 
-	return tab.tab_index + 1 .. ": " .. display_title
+	return tab.tab_index + 1 .. ". [" .. pane.domain_name .. "]: " .. display_title
 end)
 
 return config
