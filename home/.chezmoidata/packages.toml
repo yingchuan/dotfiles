@@ -47,7 +47,8 @@
       "libtbb-dev",
       "libchafa-dev",
       "libsixel-dev",
-      "libvips-dev"
+      "libvips-dev",
+      "wezterm"
     ]
     snap = [
       { instance = "nvim", args = "--classic" },
