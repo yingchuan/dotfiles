@@ -47,6 +47,7 @@ config.ssh_domains = {
 config.default_workspace = "Development"
 config.tab_bar_at_bottom = true
 config.use_fancy_tab_bar = true
+config.status_update_interval = 1000
 
 -- key bindings
 -- set leader
@@ -154,6 +155,7 @@ end)
 
 wezterm.on("update-status", function(window, pane)
 	local username = os.getenv("USER") or os.getenv("USERNAME") or "unknown"
+	local clock = wezterm.strftime("%Y-%m-%d %H:%M")
 
 	local success, hostname_output, stderr = wezterm.run_child_process({ "hostname" })
 	local hostname = "unknown"
@@ -162,6 +164,9 @@ wezterm.on("update-status", function(window, pane)
 	end
 
 	window:set_right_status(wezterm.format({
+		{ Foreground = { Color = "#ffffff" } }, -- Changed to white
+		{ Text = " │ " }, -- Just the icon
+		{ Text = " " .. clock },
 		{ Foreground = { Color = "#ffffff" } }, -- Changed to white
 		{ Text = " │ " }, -- Just the icon
 		{ Foreground = { Color = "#75b5aa" } }, -- Keep username in teal
