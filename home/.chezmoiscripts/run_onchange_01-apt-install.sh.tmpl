@@ -1,0 +1,59 @@
+#!/bin/bash
+set -euo pipefail
+
+# --- CONFIG ---
+sudo_cmd="sudo"
+
+# --- Add WezTerm APT Repository ---
+wezterm_keyring="/usr/share/keyrings/wezterm-fury.gpg"
+wezterm_list="/etc/apt/sources.list.d/wezterm.list"
+
+if [ ! -f "$wezterm_keyring" ]; then
+  curl -fsSL https://apt.fury.io/wez/gpg.key | $sudo_cmd gpg --yes --dearmor -o "$wezterm_keyring"
+  echo "deb [signed-by=$wezterm_keyring] https://apt.fury.io/wez/ * *" | $sudo_cmd tee "$wezterm_list" >/dev/null
+  $sudo_cmd chmod 644 "$wezterm_keyring"
+fi
+
+# --- Update System & Install APT Packages ---
+$sudo_cmd apt update
+
+# Install APT packages defined in chezmoi template variable
+{{ range .ubuntu.apt -}}
+$sudo_cmd apt install -y {{ . }}
+{{ end }}
+
+# --- Install Docker (if not already present) ---
+docker_keyring="/etc/apt/keyrings/docker.asc"
+docker_list="/etc/apt/sources.list.d/docker.list"
+
+if [ ! -f "$docker_keyring" ]; then
+  echo "[x] Installing Docker..."
+
+  $sudo_cmd install -m 0755 -d /etc/apt/keyrings
+  curl -fsSL https://download.docker.com/linux/ubuntu/gpg | $sudo_cmd tee "$docker_keyring" >/dev/null
+  $sudo_cmd chmod a+r "$docker_keyring"
+
+  echo \
+    "deb [arch=$(dpkg --print-architecture) signed-by=$docker_keyring] https://download.docker.com/linux/ubuntu \
+    $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+    $sudo_cmd tee "$docker_list" >/dev/null
+
+  $sudo_cmd apt update
+  $sudo_cmd apt install -y \
+    docker-ce \
+    docker-ce-cli \
+    containerd.io \
+    docker-buildx-plugin \
+    docker-compose-plugin
+
+  # Add current user to the docker group if not already in it
+  if ! id "$USER" | grep -q 'docker'; then
+    $sudo_cmd usermod -aG docker "$USER"
+    echo "[!] You must log out and log back in to apply docker group changes."
+  fi
+
+  # Optional: restart user systemd daemon if applicable
+  if loginctl show-user "$USER" | grep -q 'Linger=yes'; then
+    systemctl --user daemon-reexec || true
+  fi
+fi

@@ -1,31 +1,60 @@
 {{- $zine_dir := printf "%s/zine" .chezmoi.homeDir -}}
 #!/usr/bin/env bash
-set -e
+set -euo pipefail
 
-eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+# --- Load Homebrew environment into PATH ---
+BREW_BIN="/home/linuxbrew/.linuxbrew/bin/brew"
+load_brew_env() {
+  eval "$($BREW_BIN shellenv)"
+}
+load_brew_env
 
-# Fail immediately if zig is missing.
+# --- Ensure zig is installed ---
 if ! command -v zig >/dev/null 2>&1; then
-  echo "[chezmoi:zine] ERROR: zig is not installed. Skipping zine build/install."
+  echo "[✗] ERROR: 'zig' not found. Please install zig first." >&2
   exit 1
 fi
 
-# Clone zine repo if not present, otherwise pull the latest.
-if [ ! -d "{{ $zine_dir }}" ]; then
-  echo "[chezmoi:zine] zine directory does not exist. Cloning repo..."
-  git clone git@github.com:kristoff-it/zine.git "{{ $zine_dir }}"
+# --- Clone or update zine repository ---
+if [[ ! -d "{{ $zine_dir }}" ]]; then
+  echo "[+] Cloning zine repository..."
+  if git clone git@github.com:kristoff-it/zine.git "{{ $zine_dir }}"; then
+    echo "[✓] Cloned into {{ $zine_dir }}"
+  else
+    echo "[✗] Failed to clone repository." >&2
+    exit 1
+  fi
 else
-  echo "[chezmoi:zine] zine directory exists. Pulling latest changes..."
-  git -C "{{ $zine_dir }}" pull
+  echo "[~] Updating zine repository..."
+  if git -C "{{ $zine_dir }}" pull --ff-only; then
+    echo "[✓] Repository up to date."
+  else
+    echo "[!] Failed to update; continuing with existing code." >&2
+  fi
 fi
 
-# Build the project with release optimization.
-echo "[chezmoi:zine] Building zine with zig..."
-cd "{{ $zine_dir }}"
-zig build -Doptimize=ReleaseFast
+# --- Build zine with ReleaseFast optimization ---
+echo "[x] Building zine (ReleaseFast)..."
+pushd "{{ $zine_dir }}" >/dev/null
+if zig build -Doptimize=ReleaseFast; then
+  echo "[✓] Build succeeded."
+else
+  echo "[✗] Build failed." >&2
+  popd >/dev/null
+  exit 1
+fi
+popd >/dev/null
 
-# Install the compiled binary to $HOME/.local/bin
-echo "[chezmoi:zine] Installing to $HOME/.local/bin ..."
-install -Dm755 "{{ $zine_dir }}/zig-out/bin/zine" "$HOME/.local/bin/zine"
+# --- Install the binary ---
+INSTALL_DIR="$HOME/.local/bin"
+INSTALL_PATH="$INSTALL_DIR/zine"
+echo "[x] Installing binary to $INSTALL_PATH..."
+mkdir -p "$INSTALL_DIR"
+if install -Dm755 "{{ $zine_dir }}/zig-out/bin/zine" "$INSTALL_PATH"; then
+  echo "[✓] Installed successfully."
+else
+  echo "[✗] Installation failed." >&2
+  exit 1
+fi
 
-echo "[chezmoi:zine] Build and install complete!"
+echo "[✓] Build and install complete!"

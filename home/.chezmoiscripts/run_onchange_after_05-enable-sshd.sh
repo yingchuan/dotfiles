@@ -1,28 +1,38 @@
-#!/bin/bash
-
+#!/usr/bin/env bash
 set -euo pipefail
 
-# Detect kernel type from chezmoi-provided variable
-osrelease="${CHEZMOI_KERNEL_OSRELEASE:-}"
+# --- CONFIGURATION ---
+OSRELEASE="${CHEZMOI_KERNEL_OSRELEASE:-}"
 
-# Step 1: If running in WSL (match "wsl" or "microsoft" in osrelease), patch sshd_config port
-if echo "$osrelease" | grep -iqE 'wsl|microsoft'; then
-  echo "[+] Detected WSL-based kernel: $osrelease"
-  if sudo grep -q '^#Port 22' /etc/ssh/sshd_config; then
-    echo "[+] Changing SSH port to 2222 in /etc/ssh/sshd_config"
-    sudo sed -i 's/#Port 22/Port 2222/' /etc/ssh/sshd_config
+# --- Step 1: Patch SSH port on WSL kernels ---
+if [[ "$OSRELEASE" == *[Ww][Ss][Ll]* || "$OSRELEASE" == *[Mm]icrosoft* ]]; then
+  echo "[+] Detected WSL kernel: $OSRELEASE"
+  SSHD_CONF="/etc/ssh/sshd_config"
+
+  if grep -qE '^Port 2222' "$SSHD_CONF"; then
+    echo "[✓] SSH port already set to 2222."
+  elif grep -qE '^#Port 22' "$SSHD_CONF"; then
+    echo "[+] Setting SSH port to 2222..."
+    sudo sed -i 's/^#Port 22/Port 2222/' "$SSHD_CONF"
+    echo "[✓] SSH port updated."
   else
-    echo "[*] Port already changed or manually modified."
+    echo "[!] SSH port line not found or already customized; skipping."
   fi
 else
-  echo "[*] Non-WSL kernel detected. Skipping SSH port modification."
+  echo "[*] Non-WSL kernel detected; skipping SSH port patch."
 fi
 
-# Step 2: Ensure sshd is running
-if systemctl is-active --quiet ssh; then
-  echo "[+] sshd is active. Restarting..."
-  sudo systemctl restart ssh
+# --- Step 2: Ensure sshd service is active ---
+if command -v systemctl &>/dev/null; then
+  if systemctl is-active --quiet ssh; then
+    echo "[~] Restarting ssh service..."
+    sudo systemctl restart ssh
+    echo "[✓] ssh service restarted."
+  else
+    echo "[+] Enabling and starting ssh service..."
+    sudo systemctl enable --now ssh
+    echo "[✓] ssh service enabled and started."
+  fi
 else
-  echo "[+] sshd is inactive. Enabling and starting..."
-  sudo systemctl enable --now ssh
+  echo "[!] systemctl not found; please ensure sshd is running manually."
 fi

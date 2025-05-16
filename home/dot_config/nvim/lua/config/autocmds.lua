@@ -3,7 +3,7 @@
 -- Add any additional autocmds here
 
 vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
-  pattern = "*.gohtml,*.gotmpl,*.html",
+  pattern = "*.gohtml,*.gotmpl,*.html,*.tmpl",
   callback = function()
     if vim.fn.search("{{.\\+}}", "nw") ~= 0 then
       local buf = vim.api.nvim_get_current_buf()

@@ -1,0 +1,15 @@
+#!/bin/bash
+set -euo pipefail
+
+# --- CONFIG ---
+sudo_cmd="sudo"
+
+# --- Install Snap Packages ---
+{{- range .ubuntu.snap }}
+# Install {{ .instance }} with args: {{ .args }}
+if ! snap list | grep -q "^{{ .instance }}\s"; then
+  $sudo_cmd snap install {{ .instance }} {{ .args }}
+else
+  echo "[✓] Snap package '{{ .instance }}' is already installed."
+fi
+{{- end }}

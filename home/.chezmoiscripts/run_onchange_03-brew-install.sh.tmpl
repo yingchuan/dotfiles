@@ -1,0 +1,45 @@
+#!/bin/bash
+set -euo pipefail
+
+# --- CONFIG ---
+BREW_PATH="/home/linuxbrew/.linuxbrew/bin"
+BREW_BIN="$BREW_PATH/brew"
+
+# --- Function to load brew environment into current shell ---
+load_brew_env() {
+  eval "$("$BREW_BIN" shellenv)"
+}
+
+# --- Install Homebrew if missing ---
+if ! command -v brew >/dev/null 2>&1; then
+  echo "[x] Installing Homebrew..."
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+  BREW_PREFIX="$("$BREW_BIN" --prefix)"
+  echo "eval \"\$($BREW_PREFIX/bin/brew shellenv)\"" >> ~/.bashrc
+  echo "[+] Homebrew installed and shellenv appended to ~/.bashrc"
+else
+  echo "[✓] Homebrew is already installed."
+fi
+
+# Load environment for current shell
+load_brew_env
+
+# --- Tap additional repositories ---
+if ! brew tap | grep -q "^jstkdng/programs$"; then
+  echo "[+] Tapping 'jstkdng/programs'..."
+  brew tap jstkdng/programs
+else
+  echo "[✓] Tap 'jstkdng/programs' already exists."
+fi
+
+# --- Install or reinstall Homebrew formulae ---
+{{- range .homebrew.formulae }}
+if brew list {{ . }} >/dev/null 2>&1; then
+  echo "[~] Reinstalling '{{ . }}'..."
+  brew reinstall {{ . }}
+else
+  echo "[+] Installing '{{ . }}'..."
+  brew install {{ . }}
+fi
+{{- end }}

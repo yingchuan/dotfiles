@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# --- Configuration ---
+CHEATSH_URL="https://cht.sh/:cht.sh"
+INSTALL_DIR="$HOME/.local/bin"
+INSTALL_PATH="$INSTALL_DIR/cht.sh"
+
+# --- Ensure install directory exists ---
+echo "[x] Ensuring directory $INSTALL_DIR exists..."
+mkdir -p "$INSTALL_DIR"
+echo "[✓] Directory ready."
+
+# --- Download or update cht.sh script ---
+if [[ -f "$INSTALL_PATH" ]]; then
+  echo "[~] cht.sh already exists at $INSTALL_PATH. Updating..."
+else
+  echo "[+] Downloading cht.sh to $INSTALL_PATH..."
+fi
+
+if curl -fsSL "$CHEATSH_URL" -o "$INSTALL_PATH"; then
+  chmod +x "$INSTALL_PATH"
+  echo "[✓] cht.sh installed at $INSTALL_PATH."
+else
+  echo "[✗] Failed to download cht.sh from $CHEATSH_URL." >&2
+  exit 1
+fi

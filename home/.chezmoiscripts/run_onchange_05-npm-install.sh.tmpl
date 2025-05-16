@@ -1,0 +1,30 @@
+#!/bin/bash
+set -euo pipefail
+
+# --- Ensure npm is available ---
+if ! command -v npm >/dev/null 2>&1; then
+  echo "[✗] ERROR - npm not found. Please install Node.js/npm first."
+  exit 1
+fi
+
+# --- Function to install or skip global npm packages ---
+install_global_npm() {
+  local pkg="$1"
+
+  # Check if already installed (look for “pkg@” in the list)
+  if npm list -g --depth=0 | grep -q "${pkg}@"; then
+    echo "[✓] npm package '${pkg}' is already installed globally."
+  else
+    echo "[+] Installing global npm package '${pkg}'..."
+    if npm install -g "${pkg}"; then
+      echo "[✓] Successfully installed '${pkg}'."
+    else
+      echo "[✗] Failed to install '${pkg}'."
+    fi
+  fi
+}
+
+# --- Global NPM Packages ---
+{{- range .npm.install }}
+install_global_npm {{ . }}
+{{- end }}
