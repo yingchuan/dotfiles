@@ -97,7 +97,8 @@
       "argc",
       "gawk",
       "navi",
-      "rlwrap"
+      "rlwrap",
+      "tectonic"
     ]
 
 [npm]
