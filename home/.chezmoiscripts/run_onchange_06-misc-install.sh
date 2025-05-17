@@ -82,6 +82,8 @@ else
   echo "[✓] cpanm already available."
 fi
 
+eval "$(perl -I$HOME/perl5/lib/perl5 -Mlocal::lib)"
+
 if perl -MNeovim::Ext -e1 >/dev/null 2>&1; then
   echo "[✓] Neovim::Ext already installed."
 else
