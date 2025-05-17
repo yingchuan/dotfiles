@@ -18,7 +18,7 @@ fi
 # --- Clone or update zine repository ---
 if [[ ! -d "{{ $zine_dir }}" ]]; then
   echo "[+] Cloning zine repository..."
-  if git clone git@github.com:kristoff-it/zine.git "{{ $zine_dir }}"; then
+  if git clone https://github.com/kristoff-it/zine.git "{{ $zine_dir }}"; then
     echo "[✓] Cloned into {{ $zine_dir }}"
   else
     echo "[✗] Failed to clone repository." >&2
