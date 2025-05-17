@@ -20,6 +20,11 @@ return {
           "tmux",
           "latex",
           "typst",
+          "css",
+          "norg",
+          "scss",
+          "svelte",
+          "vue",
         })
       end
     end,
