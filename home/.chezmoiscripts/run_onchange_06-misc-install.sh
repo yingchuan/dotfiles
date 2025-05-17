@@ -10,6 +10,17 @@ YEK_CMD="yek"
 PERL5_BASE="$HOME/perl5"
 RUBY_GEM="neovim"
 
+# --- CONFIG ---
+BREW_PATH="/home/linuxbrew/.linuxbrew/bin"
+BREW_BIN="$BREW_PATH/brew"
+
+# --- Function to load brew environment into current shell ---
+load_brew_env() {
+  eval "$("$BREW_BIN" shellenv)"
+}
+
+load_brew_env
+
 # --- 1) Nerd Font ---
 echo "[x] Ensuring Nerd Font..."
 mkdir -p "$FONT_DIR"
