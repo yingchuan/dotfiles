@@ -80,9 +80,10 @@ if ! command -v cpanm >/dev/null 2>&1; then
   fi
 else
   echo "[✓] cpanm already available."
+  cpanm --notest --local-lib="$PERL5_BASE" local::lib
 fi
 
-eval "$(perl -I$HOME/perl5/lib/perl5 -Mlocal::lib)"
+eval "$(perl -I$PERL5LIB -Mlocal::lib)"
 
 if perl -MNeovim::Ext -e1 >/dev/null 2>&1; then
   echo "[✓] Neovim::Ext already installed."
