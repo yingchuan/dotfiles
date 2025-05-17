@@ -1,6 +1,18 @@
 #!/bin/bash
 set -euo pipefail
 
+# --- CONFIG ---
+BREW_PATH="/home/linuxbrew/.linuxbrew/bin"
+BREW_BIN="$BREW_PATH/brew"
+
+# --- Function to load brew environment into current shell ---
+load_brew_env() {
+  eval "$("$BREW_BIN" shellenv)"
+}
+
+# Load environment for current shell
+load_brew_env
+
 # --- Ensure npm is available ---
 if ! command -v npm >/dev/null 2>&1; then
   echo "[✗] ERROR - npm not found. Please install Node.js/npm first."
