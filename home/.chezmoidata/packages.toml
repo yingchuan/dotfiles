@@ -97,7 +97,8 @@
       "gawk",
       "navi",
       "rlwrap",
-      "tectonic"
+      "tectonic",
+      "gdb"
     ]
 
 [npm]
