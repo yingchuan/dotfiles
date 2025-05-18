@@ -99,24 +99,53 @@ return {
       dap.configurations.c = dap.configurations.cpp
 
       -- 方便的除錯操作快捷鍵綁定
+      local d = "開始/繼續除錯"
       vim.keymap.set("n", "<F5>", function()
         dap.continue()
-      end, { desc = "開始/繼續除錯" })
+      end, { desc = d })
+      vim.keymap.set("n", "<leader>dc", function()
+        dap.continue()
+      end, { desc = d })
+
+      d = "停止除錯"
       vim.keymap.set("n", "<S-F5>", function()
         dap.terminate()
-      end, { desc = "停止除錯" })
+      end, { desc = d })
+      vim.keymap.set("n", "<leader>dt", function()
+        dap.terminate()
+      end, { desc = d })
+
+      d = "切換斷點"
       vim.keymap.set("n", "<F9>", function()
         dap.toggle_breakpoint()
-      end, { desc = "切換斷點" })
+      end, { desc = d })
+      vim.keymap.set("n", "<leader>db", function()
+        dap.toggle_breakpoint()
+      end, { desc = d })
+
+      d = "逐步執行 (Step Over)"
       vim.keymap.set("n", "<F10>", function()
         dap.step_over()
-      end, { desc = "逐步執行 (Step Over)" })
+      end, { desc = d })
+      vim.keymap.set("n", "<leader>ds", function()
+        dap.step_over()
+      end, { desc = d })
+
+      d = "步入函式 (Step Into)"
       vim.keymap.set("n", "<F11>", function()
         dap.step_into()
-      end, { desc = "步入函式 (Step Into)" })
+      end, { desc = d })
+      vim.keymap.set("n", "<leader>di", function()
+        dap.step_into()
+      end, { desc = d })
+
+      d = "步出函式 (Step Out)"
       vim.keymap.set("n", "<F12>", function()
         dap.step_out()
-      end, { desc = "步出函式 (Step Out)" })
+      end, { desc = d })
+      vim.keymap.set("n", "<leader>do", function()
+        dap.step_out()
+      end, { desc = d })
     end,
   },
 
