@@ -72,8 +72,8 @@ ZSH_THEME="bira"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(git fzf history zsh-autosuggestions zsh-syntax-highlighting ssh-agent)
 
-{{ $ssh_key := "ui-py-utils-user" -}}
-{{ $my_ssh_key := "ui-m2-macos" -}}
+{{ $ssh_key := "yingchuan" -}}
+{{ $my_ssh_key := "richardchen.kneron" -}}
 {{ if stat (joinPath (env "HOME") "/.ssh" $my_ssh_key) -}}
 {{ $ssh_key = $my_ssh_key -}}
 {{ end -}}
@@ -85,7 +85,7 @@ source $ZSH/oh-my-zsh.sh
 # User configuration
 export PATH="/snap/bin:$HOME/go/bin:$HOME/.bin:$HOME/.local/bin:$HOME/.bin:$PATH"
 export MANPATH="${MANPATH-$(manpath)}:$NPM_PACKAGES/share/man"
-export EDITOR=vim
+export EDITOR=nvim
 
 # export MANPATH="/usr/local/man:$MANPATH"
 
