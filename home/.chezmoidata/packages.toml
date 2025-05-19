@@ -98,7 +98,8 @@
       "navi",
       "rlwrap",
       "tectonic",
-      "gdb"
+      "gdb",
+      "sqlite"
     ]
 
 [npm]
