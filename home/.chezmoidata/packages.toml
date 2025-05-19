@@ -99,7 +99,8 @@
       "rlwrap",
       "tectonic",
       "gdb",
-      "sqlite"
+      "sqlite",
+      "lazygit"
     ]
 
 [npm]

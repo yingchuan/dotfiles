@@ -362,6 +362,13 @@ tmux_conf_theme_clock_style="24"
 #   - disabled
 # on Linux, this requires xsel, xclip or wl-copy
 tmux_conf_copy_to_os_clipboard=false
+set -g set-clipboard on
+set -g default-terminal "tmux-256color"
+set -ga terminal-overrides ",xterm-256color:Tc"
+
+# 綁 prefix+u，對當前 pane 傳送 unset 指令，並顯示提示
+bind-key u run-shell \
+  "tmux send-keys -t '%%' 'unset WAYLAND_DISPLAY' C-m; tmux display-message 'Unset WAYLAND_DISPLAY in this pane'"
 
 
 # -- urlscan -------------------------------------------------------------------
