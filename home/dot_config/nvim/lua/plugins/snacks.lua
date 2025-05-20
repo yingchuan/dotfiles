@@ -12,7 +12,7 @@ return {
     explorer = { enabled = true },
     indent = { enabled = true },
     input = { enabled = true },
-    picker = { enabled = true, override_ui_select = true },
+    picker = { enabled = true, override_ui_select = true, layout = { preset = "bottom" } },
     notifier = { enabled = true },
     quickfile = { enabled = true },
     scope = { enabled = true },
