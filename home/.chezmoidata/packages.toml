@@ -100,7 +100,8 @@
       "tectonic",
       "gdb",
       "sqlite",
-      "lazygit"
+      "lazygit",
+      "ninja"
     ]
 
 [npm]

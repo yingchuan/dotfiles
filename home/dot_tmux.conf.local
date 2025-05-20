@@ -370,6 +370,14 @@ set -ga terminal-overrides ",xterm-256color:Tc"
 bind-key u run-shell \
   "tmux send-keys -t '%%' 'unset WAYLAND_DISPLAY' C-m; tmux display-message 'Unset WAYLAND_DISPLAY in this pane'"
 
+# -- codex ---------------------------------------------------------------------
+bind-key | run-shell " \
+    pane=\$(tmux split-window -h -p 30 \
+             -c '#{pane_current_path}' \
+             -P -F '#{pane_id}' \
+             codex); \
+    tmux select-pane -t \$pane; \
+"
 
 # -- urlscan -------------------------------------------------------------------
 
