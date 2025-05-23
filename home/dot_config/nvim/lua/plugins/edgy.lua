@@ -19,5 +19,18 @@ return {
       -- any other neo-tree windows
       "neo-tree",
     },
+    bottom = {
+      {
+        ft = "snacks_terminal",
+        title = "Snacks Terminal",
+        size = { height = 0.2 },
+        filter = function(_, win)
+          return vim.w[win].snacks_win
+            and vim.w[win].snacks_win.position == "bottom"
+            and vim.w[win].snacks_win.relative == "editor"
+            and not vim.w[win].trouble_preview
+        end,
+      },
+    },
   },
 }

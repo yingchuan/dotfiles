@@ -21,6 +21,7 @@ return {
     words = { enabled = true },
     lazygit = { enabled = true },
     dashboard = { enabled = true },
+    terminal = { enabled = true },
   },
   keys = {
     -- find
@@ -344,6 +345,13 @@ return {
         Snacks.picker.lsp_workspace_symbols()
       end,
       desc = "LSP Workspace Symbols",
+    },
+    {
+      "<leader>t",
+      function()
+        Snacks.terminal.toggle()
+      end,
+      desc = "Toggle terminal",
     },
   },
 }
