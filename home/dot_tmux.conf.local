@@ -372,7 +372,7 @@ bind-key u run-shell \
 
 # -- codex ---------------------------------------------------------------------
 bind-key | run-shell " \
-    pane=\$(tmux split-window -h -p 30 \
+    pane=\$(tmux split-window -h -p 25 \
              -c '#{pane_current_path}' \
              -P -F '#{pane_id}' \
              codex); \
