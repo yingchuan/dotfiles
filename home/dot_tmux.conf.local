@@ -379,6 +379,10 @@ bind-key | run-shell " \
     tmux select-pane -t \$pane; \
 "
 
+# -- prompt naming or default if empty when creating a window
+bind-key c command-prompt -p "Window name (empty for default)" \
+  'if-shell -b -F "#{==:%1,}" "new-window" "new-window -n \"%1\""'
+
 # -- urlscan -------------------------------------------------------------------
 
 # options passed to urlscan
