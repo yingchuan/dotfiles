@@ -347,11 +347,11 @@ return {
       desc = "LSP Workspace Symbols",
     },
     {
-      "<leader>t",
+      "<leader>cc",
       function()
-        Snacks.terminal.toggle()
+        Snacks.terminal.toggle("codex", { win = { position = "bottom" } })
       end,
-      desc = "Toggle terminal",
+      desc = "Toggle Codex CLI",
     },
   },
 }
