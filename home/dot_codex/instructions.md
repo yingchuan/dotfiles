@@ -3,3 +3,4 @@
 - 我允許你具備讀取專案所有檔案的權限
 - 如果不知道, 直接表明, 避免幻覺
 - 如果需要你生成代碼, comments 的部分請用英文回復
+- always print/log/inform/error/warnning comments in English

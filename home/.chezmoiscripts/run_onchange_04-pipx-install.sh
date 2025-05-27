@@ -49,4 +49,6 @@ install_with_pipx yt-dlp
 install_with_pipx openai-whisper
 install_with_pipx openai
 install_with_pipx pylatexenc
+install_with_pipx pylatexenc
+install_with_pipx netron
 install_with_pipx git+https://github.com/openai/whisper.git whisper
