@@ -108,6 +108,7 @@
     install = [
       "@devcontainers/cli",
       "@openai/codex",
+      "@anthropic-ai/claude-code",
       "playwright@latest",
       "@mermaid-js/mermaid-cli",
       "neovim",
