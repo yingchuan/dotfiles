@@ -25,6 +25,7 @@ return {
           "scss",
           "svelte",
           "vue",
+          "nix",
         })
       end
     end,
