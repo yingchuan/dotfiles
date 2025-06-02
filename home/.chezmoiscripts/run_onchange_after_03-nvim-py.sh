@@ -36,11 +36,10 @@ fi
 # --- Initialize pyenv environment ---
 export PYENV_ROOT="$PYENV_ROOT"
 export PATH="$PYENV_ROOT/bin:$PATH"
-# Initialize pyenv and virtualenv support
+# Initialize pyenv support
 if command -v pyenv >/dev/null 2>&1; then
   eval "$(pyenv init --path)"
   eval "$(pyenv init -)"
-  eval "$(pyenv virtualenv-init -)"
 fi
 
 # --- 3) Install Python versions ---
