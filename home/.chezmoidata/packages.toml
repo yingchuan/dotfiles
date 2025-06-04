@@ -107,7 +107,7 @@
 [npm]
     install = [
       "@devcontainers/cli",
-      "@openai/codex",
+      "@openai/codex@native",
       "@anthropic-ai/claude-code",
       "playwright@latest",
       "@mermaid-js/mermaid-cli",
