@@ -52,3 +52,4 @@ install_with_pipx pylatexenc
 install_with_pipx pylatexenc
 install_with_pipx netron
 install_with_pipx git+https://github.com/openai/whisper.git whisper
+install_with_pipx aider-chat
