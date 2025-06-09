@@ -10,35 +10,45 @@ fi
 # --- Ensure ~/.local/bin is in PATH for current session ---
 export PATH="$HOME/.local/bin:$PATH"
 
-# --- Install function ----------------------------------
-# Usage: install_with_pipx <source> [<override_name>]
-#   <source>        : argument passed to `pipx install`, e.g. "poetry" or "git+https://...".
-#   [<override_name>]: optional name to search for in `pipx list` (defaults to basename of source).
-install_with_pipx() {
-  local source="$1"
-  local name="${2:-}"
+	# --- Install function ----------------------------------
+	# Usage: install_with_pipx <source> [<override_name>] [<flags>...]
+	#   <source>        : argument passed to `pipx install`, e.g. "poetry" or "git+https://..."
+	#   [<override_name>]: optional name to search for in `pipx list` (defaults to basename of source)
+	#   [<flags>...]    : additional flags to pass to `pipx install`
+	install_with_pipx() {
+	  local source="$1"
+	  shift
+	  local override_name=""
+	  local flags=()
 
-  # Determine the package name if not overridden
-  if [[ -z "$name" ]]; then
-    if [[ "$source" == git+* ]]; then
-      name="$(basename "${source%.git}")"
-    else
-      name="$source"
-    fi
-  fi
+	  if [[ $# -eq 1 && ! "$1" =~ ^- ]]; then
+	    override_name="$1"
+	  elif [[ $# -gt 0 ]]; then
+	    flags=("$@")
+	  fi
 
-  # Check if already installed
-  if pipx list | grep -qE "^package $name\b"; then
-    echo "[✓] pipx package '$name' is already installed."
-  else
-    echo "[+] Installing pipx package '$name' from '$source'..."
-    if pipx install "$source"; then
-      echo "[✓] Successfully installed '$name'."
-    else
-      echo "[✗] Failed to install '$name'."
-    fi
-  fi
-}
+	  local name
+	  if [[ -n "$override_name" ]]; then
+	    name="$override_name"
+	  else
+	    if [[ "$source" == git+* ]]; then
+	      name="$(basename "${source%.git}")"
+	    else
+	      name="$source"
+	    fi
+	  fi
+
+	  if pipx list | grep -qE "^package $name\b"; then
+	    echo "[✓] pipx package '$name' is already installed."
+	  else
+	    echo "[+] Installing pipx package '$name' from '$source'..."
+	    if pipx install "$source" "${flags[@]}"; then
+	      echo "[✓] Successfully installed '$name'."
+	    else
+	      echo "[✗] Failed to install '$name'."
+	    fi
+	  fi
+	}
 
 # --- pipx Packages to Install --------------------------
 install_with_pipx poetry
