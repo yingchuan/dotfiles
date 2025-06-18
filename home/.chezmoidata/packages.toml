@@ -112,5 +112,6 @@
       "playwright@latest",
       "@mermaid-js/mermaid-cli",
       "neovim",
-      "tldr"
+      "tldr",
+      "quicktype"
     ]
