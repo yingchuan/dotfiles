@@ -3,8 +3,14 @@ local act = wezterm.action
 local mux = wezterm.mux
 local config = wezterm.config_builder()
 
+config.font = wezterm.font_with_fallback({
+	"Ubuntu Mono", -- 英文、符號、程式碼主字型，舒服耐看
+	"Noto Sans Mono CJK TC", -- 繁體優先
+	"Noto Sans Mono CJK SC", -- 簡體 fallback
+	"WenQuanYi Zen Hei Mono", -- 額外簡繁支援
+})
+
 config.color_scheme = "Belge (terminal.sexy)"
-config.font = wezterm.font("JetBrains Mono")
 config.font_size = 12
 
 config.keys = {
