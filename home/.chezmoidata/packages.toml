@@ -48,7 +48,8 @@
       "libchafa-dev",
       "libsixel-dev",
       "libvips-dev",
-      "wezterm"
+      "wezterm",
+      "keychain",
     ]
     snap = [
       { instance = "nvim", args = "--classic" },
@@ -101,7 +102,7 @@
       "gdb",
       "sqlite",
       "lazygit",
-      "ninja"
+      "ninja",
     ]
 
 [npm]
