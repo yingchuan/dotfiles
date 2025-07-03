@@ -50,6 +50,7 @@
       "libvips-dev",
       "wezterm",
       "keychain",
+      "bat"
     ]
     snap = [
       { instance = "nvim", args = "--classic" },
